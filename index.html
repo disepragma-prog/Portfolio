@@ -185,7 +185,10 @@ section.case{background:var(--paper);}
 .titleblock-meta{font-family:var(--serial); font-size:10.5px; color:rgba(255,255,255,0.55); text-align:right; line-height:1.6;}
 .titleblock-meta b{color:var(--accent-onnavy); font-weight:500;}
 
-.case-body{padding:64px 0 104px;}
+/* Vertical only: the shorthand used to write 0 into the horizontal
+   padding and cancel the one .wrap provides, so under 1180px the text
+   ran into the edge of the screen. */
+.case-body{padding-top:64px; padding-bottom:104px;}
 .case-grid{display:grid; grid-template-columns:1.5fr 1fr; gap:48px; align-items:start;}
 @media (max-width:860px){.case-grid{grid-template-columns:1fr; gap:28px;}}
 
@@ -237,7 +240,8 @@ section.case{background:var(--paper);}
 }
 @media (max-width:760px){
   .video-layout{flex-direction:column; gap:12px;}
-  .video-frame{width:100%; max-width:300px;}
+  /* stacked, the 300px frame would sit against the left margin */
+  .video-frame{width:100%; max-width:300px; margin-left:auto; margin-right:auto;}
 }
 .video-frame video{width:100%; aspect-ratio:9/16; display:block; background:#000;}
 .video-tag{
