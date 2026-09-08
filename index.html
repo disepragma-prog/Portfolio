@@ -1,0 +1,802 @@
+<!doctype html>
+<html lang="es">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Santiago E. Reynoso — Portfolio Técnico</title>
+<style>
+/* =============================================================
+   THE DRAFTING TABLE — Santiago E. Reynoso, web portfolio
+   One committed visual world (PRAGMA's own: navy shows / paper
+   says) — not adapted to viewer light/dark preference, same as
+   every other PRAGMA deliverable. Every color is painted here
+   explicitly regardless of theme.
+   ============================================================= */
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root{
+  --navy:#01253B;
+  --navy-deep:#011226;
+  --paper:#F3F5F7;
+  --paper-card:#FFFFFF;
+  --ink:#182530;
+  --line:#DEE4EA;
+  --mid:#75879A;
+  --accent:#5BA3C9;
+  --accent-onpaper:#2E76A0;
+  --accent-onnavy:#8FC6E4;
+  --serial: 'JetBrains Mono', Consolas, monospace;
+  --display: 'Raleway', 'Segoe UI Semibold', sans-serif;
+  --body: 'Inter', 'Segoe UI', sans-serif;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+@media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto;} *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;} }
+
+/* Anchor jumps must land below the sticky index bar (46px). */
+section.case, footer.closing{scroll-margin-top:46px;}
+
+/* Entrance transition. The hidden state is scoped to .has-reveal, which
+   only JS adds — without JS (or with reduced motion) everything is
+   visible from the start rather than stuck at opacity 0. */
+.has-reveal .reveal{opacity:0; transform:translateY(22px);}
+.has-reveal .reveal.is-visible{
+  opacity:1; transform:none;
+  transition:opacity .7s cubic-bezier(.2,.7,.3,1), transform .7s cubic-bezier(.2,.7,.3,1);
+}
+@media (prefers-reduced-motion:reduce){ .has-reveal .reveal{opacity:1; transform:none;} }
+
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--body);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+a{color:inherit;}
+img{max-width:100%;display:block;}
+::selection{background:var(--accent);color:var(--navy-deep);}
+
+.wrap{max-width:1180px;margin:0 auto;padding:0 32px;}
+@media (max-width:640px){.wrap{padding:0 20px;}}
+
+/* ===== TOP INDEX BAR ===== */
+.indexbar{
+  position:sticky; top:0; z-index:40;
+  background:rgba(1,37,59,0.94);
+  backdrop-filter:blur(6px);
+  border-bottom:1px solid rgba(255,255,255,0.08);
+}
+.indexbar-inner{
+  max-width:1180px;margin:0 auto;padding:0 32px;
+  height:46px;display:flex;align-items:center;justify-content:space-between;
+  font-family:var(--serial);font-size:11px;letter-spacing:0.5px;color:rgba(255,255,255,0.55);
+}
+@media (max-width:640px){.indexbar-inner{padding:0 20px;}}
+.indexbar-brand{color:var(--accent-onnavy);font-weight:600;}
+.indexbar-nav{display:flex;gap:18px;}
+.indexbar-nav a{text-decoration:none;color:rgba(255,255,255,0.55);transition:color .15s;white-space:nowrap;}
+.indexbar-nav a:hover, .indexbar-nav a.active{color:#fff;}
+.indexbar-nav a.active{color:var(--accent-onnavy);}
+@media (max-width:560px){ .indexbar-nav span.lbl{display:none;} }
+
+/* ===== SCALE RULE (scroll position, decorative + functional) ===== */
+.scalerule{
+  position:fixed; right:18px; top:70px; bottom:24px; width:26px; z-index:30;
+  display:flex; flex-direction:column; align-items:center;
+  pointer-events:none;
+}
+.scalerule-track{position:relative; flex:1; width:1px; background:rgba(1,37,59,0.16);}
+.scalerule-track i{
+  position:absolute; left:-3px; width:7px; height:1px; background:rgba(1,37,59,0.28);
+}
+.scalerule-track b{
+  position:absolute; left:-7px; width:15px; height:1px; background:rgba(1,37,59,0.4);
+}
+.scalerule-marker{
+  position:absolute; left:-5px; width:11px; height:11px; border-radius:50%;
+  background:var(--accent); box-shadow:0 0 0 3px rgba(91,163,201,0.22);
+  top:0; transition:top .06s linear;
+}
+.scalerule-label{
+  font-family:var(--serial); font-size:8px; color:var(--mid); letter-spacing:1px;
+  writing-mode:vertical-rl; margin-top:6px;
+}
+@media (max-width:980px){ .scalerule{display:none;} }
+
+/* ===== HERO ===== */
+.hero{
+  background:var(--navy);
+  background-image:
+    repeating-linear-gradient(180deg, transparent, transparent 27px, rgba(255,255,255,0.025) 27px, rgba(255,255,255,0.025) 28px);
+  color:#fff;
+  padding:64px 0 56px;
+}
+.hero-eyebrow{
+  font-family:var(--serial); font-size:11px; letter-spacing:5px; text-transform:uppercase;
+  color:var(--accent-onnavy); margin-bottom:22px;
+}
+.hero h1{
+  font-family:var(--display); font-weight:900; letter-spacing:-1.5px;
+  font-size:clamp(40px,7vw,84px); line-height:0.98; text-wrap:balance; margin-bottom:18px;
+}
+.hero-role{
+  font-family:var(--body); font-weight:500; font-size:clamp(14px,1.8vw,17px);
+  color:rgba(255,255,255,0.78); max-width:560px; line-height:1.5; margin-bottom:22px;
+}
+/* Cover index: the opening carries almost no prose — the four projects
+   are the content, and each line is a direct jump. */
+.hero-index{margin:36px 0 32px; border-top:1px solid rgba(255,255,255,0.14);}
+.hero-index a{
+  display:flex; align-items:baseline; gap:18px; text-decoration:none;
+  padding:14px 6px 14px 0; border-bottom:1px solid rgba(255,255,255,0.14);
+  transition:padding-left .28s cubic-bezier(.2,.7,.3,1), background-color .28s ease;
+}
+.hero-index a:hover, .hero-index a:focus-visible{padding-left:14px; background:rgba(255,255,255,0.05);}
+.hi-n{font-family:var(--serial); font-size:11px; letter-spacing:1px; color:var(--accent-onnavy); flex:none; width:24px;}
+.hi-t{
+  font-family:var(--display); font-weight:800; letter-spacing:-.2px;
+  font-size:clamp(15px,1.9vw,19px); color:#fff; flex:1; min-width:0;
+  transition:color .2s ease;
+}
+.hero-index a:hover .hi-t, .hero-index a:focus-visible .hi-t{color:var(--accent-onnavy);}
+.hi-m{font-family:var(--serial); font-size:10.5px; color:rgba(255,255,255,0.42); flex:none;}
+@media (max-width:560px){ .hi-m{display:none;} }
+
+.hero-meta-min{
+  display:flex; flex-wrap:wrap; gap:6px 10px; align-items:center;
+  font-family:var(--serial); font-size:12px; color:rgba(255,255,255,0.5);
+}
+.hero-meta-min a{text-decoration:none; border-bottom:1px solid rgba(255,255,255,0.25); color:rgba(255,255,255,0.75);}
+.hero-meta-min a:hover{border-color:var(--accent-onnavy); color:#fff;}
+.badge{
+  display:inline-flex; align-items:center; gap:7px; margin-top:26px;
+  padding:7px 16px; background:rgba(90,220,150,0.1); border:1px solid rgba(90,220,150,0.4);
+  border-radius:3px; font-family:var(--body); font-size:12px; font-weight:600; color:#8FE0B4;
+}
+.badge::before{content:"";width:6px;height:6px;border-radius:50%;background:#5CD98A;}
+
+/* ===== SECTION SHELL ===== */
+section.case{background:var(--paper);}
+.titleblock{
+  background:var(--navy-deep); color:#fff;
+  border-top:1px solid rgba(255,255,255,0.08);
+  border-bottom:2px solid var(--accent);
+}
+.titleblock-inner{
+  max-width:1180px;margin:0 auto;padding:34px 32px;
+  display:flex; align-items:baseline; justify-content:space-between; gap:18px; flex-wrap:wrap;
+}
+@media (max-width:640px){.titleblock-inner{padding:24px 20px;}}
+.titleblock-name{font-family:var(--serial); font-size:11px; letter-spacing:2px; color:rgba(255,255,255,0.4); margin-bottom:6px;}
+.titleblock-title{font-family:var(--display); font-weight:900; font-size:clamp(26px,4.2vw,44px); letter-spacing:-1px; line-height:1.05;}
+.titleblock-meta{font-family:var(--serial); font-size:10.5px; color:rgba(255,255,255,0.55); text-align:right; line-height:1.6;}
+.titleblock-meta b{color:var(--accent-onnavy); font-weight:500;}
+
+.case-body{padding:64px 0 104px;}
+.case-grid{display:grid; grid-template-columns:1.5fr 1fr; gap:48px; align-items:start;}
+@media (max-width:860px){.case-grid{grid-template-columns:1fr; gap:28px;}}
+
+.narrative{font-size:15.5px; line-height:1.75; max-width:62ch; color:var(--ink);}
+.narrative p{margin-bottom:14px;}
+.narrative p:last-child{margin-bottom:0;}
+
+.meta-panel{
+  background:var(--paper-card); border:1px solid var(--line); border-radius:3px;
+  padding:20px 22px;
+}
+.meta-row{display:flex; flex-direction:column; gap:3px; padding:10px 0; border-bottom:1px solid var(--line);}
+.meta-row:last-child{border-bottom:none; padding-bottom:0;}
+.meta-row:first-child{padding-top:0;}
+.meta-lbl{font-family:var(--serial); font-size:9.5px; letter-spacing:1.2px; text-transform:uppercase; color:var(--mid);}
+.meta-val{font-size:13.5px; color:var(--ink); line-height:1.5;}
+.tags{display:flex; flex-wrap:wrap; gap:6px; margin-top:4px;}
+.tag{
+  font-family:var(--body); font-size:10.5px; font-weight:600; color:var(--accent-onpaper);
+  background:rgba(91,163,201,0.1); border:1px solid rgba(91,163,201,0.32);
+  padding:3px 9px; border-radius:11px;
+}
+
+/* ===== PROCESS STRIP — real pipeline stages, per case ===== */
+.process-strip{display:flex; flex-wrap:wrap; margin-top:28px; border:1px solid var(--line); background:var(--paper-card);}
+.process-step{flex:1 1 150px; padding:13px 16px; border-right:1px solid var(--line);}
+.process-step:last-child{border-right:none;}
+.process-step-n{font-family:var(--serial); font-size:10px; color:var(--accent-onpaper); letter-spacing:1px;}
+.process-step-t{font-family:var(--body); font-weight:600; font-size:12.5px; margin-top:3px; color:var(--ink); line-height:1.3;}
+@media (max-width:700px){.process-step{flex:1 1 45%; border-bottom:1px solid var(--line);} .process-step:nth-child(2n){border-right:none;}}
+
+/* ===== SITE VIDEO — real footage, vertical Story format ===== */
+.video-block{margin-top:40px;}
+/* The clip is vertical (9:16). Alone it would float in a wide empty
+   band, so it is paired with the note panel and both fill the row. */
+.video-layout{display:flex; gap:3px; align-items:stretch;}
+.video-frame{
+  width:300px; flex:none; background:var(--navy-deep);
+  border:1px solid var(--line); position:relative;
+}
+.video-note{
+  flex:1; min-width:0; background:var(--paper-card); border:1px solid var(--line);
+  padding:26px 30px; display:flex; flex-direction:column; justify-content:center;
+}
+.video-lead{
+  font-family:var(--display); font-weight:800; font-size:clamp(16px,2vw,21px);
+  line-height:1.3; color:var(--navy); letter-spacing:-.2px; margin-bottom:18px;
+  padding-bottom:16px; border-bottom:2px solid var(--accent);
+}
+@media (max-width:760px){
+  .video-layout{flex-direction:column; gap:12px;}
+  .video-frame{width:100%; max-width:300px;}
+}
+.video-frame video{width:100%; aspect-ratio:9/16; display:block; background:#000;}
+.video-tag{
+  position:absolute; top:10px; left:10px;
+  font-family:var(--serial); font-size:10px; font-weight:600; color:var(--navy-deep);
+  background:var(--accent); padding:2px 7px; letter-spacing:.5px; z-index:1;
+}
+
+/* ===== GALLERY =====
+   Gallery presentation: the image carries nothing on top of it. The
+   caption sits underneath, on paper — which is also what the identity
+   standard asks for (navy muestra / blanco dice, and no gradients).
+   The plates run wider than the text column so the work leads. */
+/* Display width follows source resolution. The GCBA sheets are archival
+   screen captures (263–620 px wide): shown any bigger they go soft, so
+   their galleries are held narrow and stay crisp. The kitchen runs off
+   2160x2880 masters and can break wider than the text column. The result
+   is a hierarchy that matches the material — own studio work leads. */
+.gallery{margin-top:52px;}
+.gallery--wide{
+  width:min(94vw, 1560px);
+  margin-left:calc(50% - min(47vw, 780px));
+}
+.gallery--md{max-width:1116px; margin-left:auto; margin-right:auto;}
+.gallery--sm{max-width:860px;  margin-left:auto; margin-right:auto;}
+/* Justified rows: each figure keeps its image's own proportion (inline
+   flex-grow on the figure + aspect-ratio on the frame, both = the native
+   ratio), so every row shares one height and fills the width exactly —
+   nothing is cropped and no tile is padded out with empty background. */
+.gallery-row{display:flex; gap:18px; margin-bottom:18px; align-items:flex-start;}
+.gallery-row:last-child{margin-bottom:0;}
+.g-fig{flex-basis:0; min-width:0; margin:0; display:flex; flex-direction:column;}
+.g-item{
+  position:relative; overflow:hidden; background:var(--navy-deep);
+  /* hairline: the technical plates are near-white on a near-white page
+     and would otherwise bleed into it */
+  box-shadow:inset 0 0 0 1px rgba(1,37,59,0.14);
+}
+.g-item img{width:100%; height:100%; object-fit:cover; object-position:center; display:block;}
+.g-cap{
+  font-family:var(--serial); font-size:11px; color:var(--mid);
+  letter-spacing:.2px; line-height:1.5; padding:11px 2px 0; min-height:46px;
+}
+.g-cap b{color:var(--accent-onpaper); font-weight:600; margin-right:9px;}
+@media (max-width:700px){
+  .gallery, .gallery--wide, .gallery--md, .gallery--sm{width:auto; max-width:none; margin-left:0; margin-right:0;}
+  .gallery-row{flex-direction:column; gap:22px;}
+  .g-fig{flex:none !important; width:100%;}
+  .g-cap{min-height:0;}
+}
+
+/* ===== GALLERY — hover cue for the lightbox (viewfinder corners) ===== */
+.g-item{cursor:zoom-in;}
+.g-item img{transition:transform .4s cubic-bezier(.2,.7,.3,1);}
+.g-item:hover img{transform:scale(1.05);}
+.g-view-hint{position:absolute; inset:8px; pointer-events:none; opacity:0; transition:opacity .2s ease;}
+.g-item:hover .g-view-hint{opacity:1;}
+.g-view-hint i{position:absolute; width:14px; height:14px; border:1.5px solid var(--accent); font-style:normal;}
+.g-view-hint i:nth-child(1){top:0; left:0; border-right:none; border-bottom:none;}
+.g-view-hint i:nth-child(2){top:0; right:0; border-left:none; border-bottom:none;}
+.g-view-hint i:nth-child(3){bottom:0; left:0; border-right:none; border-top:none;}
+.g-view-hint i:nth-child(4){bottom:0; right:0; border-left:none; border-top:none;}
+
+/* ===== LIGHTBOX — technical viewer, reusable PRAGMA component ===== */
+.lightbox{
+  position:fixed; inset:0; z-index:100;
+  background:rgba(1,18,38,0.94); backdrop-filter:blur(3px);
+  display:flex; align-items:center; justify-content:center;
+  padding:56px 24px 24px;
+  opacity:0; visibility:hidden; transition:opacity .22s ease;
+}
+.lightbox.is-open{opacity:1; visibility:visible;}
+.lightbox-frame{position:relative; max-width:min(1100px,92vw); width:100%; display:flex; flex-direction:column; align-items:center;}
+.lightbox-imgwrap{border:1px solid rgba(255,255,255,0.25); background:var(--navy-deep); max-height:74vh; display:flex; align-items:center; justify-content:center; overflow:hidden;}
+.lightbox-imgwrap img{max-height:74vh; width:auto; max-width:100%; object-fit:contain;}
+.lightbox-bar{width:100%; display:flex; align-items:baseline; justify-content:space-between; gap:16px; margin-top:14px; padding-top:12px; border-top:1px solid rgba(255,255,255,0.15); font-family:var(--serial); color:rgba(255,255,255,0.85);}
+.lightbox-cap{font-size:12.5px; letter-spacing:.2px;}
+.lightbox-cap b{color:var(--accent-onnavy); font-weight:600; margin-right:8px;}
+.lightbox-count{font-size:10.5px; color:rgba(255,255,255,0.45); white-space:nowrap; letter-spacing:1px;}
+.lightbox-close{
+  position:absolute; top:-40px; right:-4px; width:34px; height:34px;
+  border:1px solid rgba(255,255,255,0.3); background:transparent; color:#fff;
+  font-family:var(--serial); font-size:15px; line-height:1; cursor:pointer;
+  display:flex; align-items:center; justify-content:center; transition:border-color .15s,color .15s;
+}
+.lightbox-close:hover{border-color:var(--accent); color:var(--accent-onnavy);}
+.lightbox-nav{
+  position:absolute; top:50%; transform:translateY(-50%); width:44px; height:64px;
+  background:transparent; border:none; cursor:pointer; color:rgba(255,255,255,0.55);
+  display:flex; align-items:center; justify-content:center; transition:color .15s;
+}
+.lightbox-nav:hover{color:#fff;}
+.lightbox-nav svg{width:20px;height:20px;}
+.lightbox-prev{left:-56px;}
+.lightbox-next{right:-56px;}
+/* The frame is 92vw, so below ~1260px there is no room for the arrows
+   to sit outside it — they would fall off screen. Bring them inside. */
+@media (max-width:1260px){
+  .lightbox-prev{left:4px;} .lightbox-next{right:4px;}
+}
+@media (max-width:640px){
+  .lightbox-nav{position:fixed; top:auto; bottom:14px; transform:none;}
+  .lightbox-prev{left:14px;} .lightbox-next{right:14px;}
+  .lightbox-close{top:16px; right:16px;}
+}
+
+/* Case 3 gets a real full-bleed photographic hero (only project
+   with camera-ready resolution — the GCBA crops are archival at
+   ~600px and are shown honestly at native size instead). */
+.case-hero-photo{width:100%; max-height:640px; object-fit:cover; display:block;}
+
+/* ===== ACADEMIC (case 4) — quieter, clearly marked ===== */
+.academic-flag{
+  display:inline-block; font-family:var(--serial); font-size:10px; letter-spacing:1px;
+  color:var(--mid); background:var(--paper-card); border:1px dashed var(--line);
+  padding:5px 10px; margin-bottom:16px;
+}
+.academic-figure{display:grid; grid-template-columns:1.1fr 0.9fr; gap:32px; align-items:center; margin-top:8px;}
+.academic-figure img{border:1px solid var(--line);}
+@media (max-width:780px){.academic-figure{grid-template-columns:1fr;}}
+
+/* ===== CLOSING ===== */
+.closing{background:var(--navy); color:#fff; padding:80px 0 46px; text-align:center;}
+.closing h2{font-family:var(--display); font-weight:900; font-size:clamp(30px,5vw,46px); margin-bottom:16px; letter-spacing:-1px;}
+.closing p{max-width:480px; margin:0 auto 26px; color:rgba(255,255,255,0.72); line-height:1.7; font-size:14.5px;}
+.closing-contact{display:flex; flex-wrap:wrap; gap:8px 26px; justify-content:center; font-family:var(--serial); font-size:13px; color:rgba(255,255,255,0.8); margin-top:26px;}
+.closing-contact a{text-decoration:none; border-bottom:1px solid rgba(255,255,255,0.3);}
+.closing-contact a:hover{border-color:var(--accent-onnavy); color:#fff;}
+.closing-contact b{color:var(--accent-onnavy); font-weight:500; margin-right:6px;}
+.footer-strip{
+  margin-top:60px; padding-top:20px; border-top:1px solid rgba(255,255,255,0.1);
+  font-family:var(--serial); font-size:10px; letter-spacing:3px; color:rgba(255,255,255,0.3); text-transform:uppercase;
+}
+
+h3.section-h{font-family:var(--display); font-weight:800; font-size:14px; letter-spacing:2px; text-transform:uppercase; color:var(--navy); margin-bottom:16px; padding-left:12px; border-left:3px solid var(--accent);}
+</style>
+
+<div class="scalerule" aria-hidden="true">
+  <div class="scalerule-track" id="ruleTrack">
+    <div class="scalerule-marker" id="ruleMarker"></div>
+  </div>
+  <div class="scalerule-label">SCROLL</div>
+</div>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-hidden="true">
+  <button class="lightbox-close" id="lbClose" aria-label="Cerrar visor">&#10005;</button>
+  <div class="lightbox-frame">
+    <button class="lightbox-nav lightbox-prev" id="lbPrev" aria-label="Imagen anterior">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <button class="lightbox-nav lightbox-next" id="lbNext" aria-label="Imagen siguiente">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
+    <div class="lightbox-imgwrap"><img id="lbImg" src="" alt=""></div>
+    <div class="lightbox-bar">
+      <div class="lightbox-cap"><b id="lbTag"></b><span id="lbCap"></span></div>
+      <div class="lightbox-count" id="lbCount"></div>
+    </div>
+  </div>
+</div>
+
+<nav class="indexbar">
+  <div class="indexbar-inner">
+    <span class="indexbar-brand">PRAGMA — ÍNDICE</span>
+    <div class="indexbar-nav">
+      <a href="#c1" data-nav><span class="lbl">01·</span>MUGICA CO</a>
+      <a href="#c2" data-nav><span class="lbl">02·</span>MUGICA PO</a>
+      <a href="#c3" data-nav><span class="lbl">03·</span>PRAGMA</a>
+      <a href="#c4" data-nav><span class="lbl">04·</span>ACADÉMICO</a>
+      <a href="#contact" data-nav><span class="lbl">05·</span>CONTACTO</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-eyebrow">Portfolio Técnico — Rev. 2026-09</div>
+    <h1>Santiago E.<br>Reynoso</h1>
+    <p class="hero-role">Especialista BIM &amp; Coordinador de Proyecto</p>
+    <nav class="hero-index" aria-label="Índice de proyectos">
+      <a href="#c1"><span class="hi-n">01</span><span class="hi-t">Rectificación de Línea Municipal</span><span class="hi-m">GCBA</span></a>
+      <a href="#c2"><span class="hi-n">02</span><span class="hi-t">Proyecto Bajo Amparo Judicial</span><span class="hi-m">GCBA</span></a>
+      <a href="#c3"><span class="hi-n">03</span><span class="hi-t">Cocina a Medida — de la idea a la fabricación</span><span class="hi-m">PRAGMA</span></a>
+      <a href="#c4"><span class="hi-n">04</span><span class="hi-t">Ejercicio Académico de Diseño</span><span class="hi-m">FADU</span></a>
+    </nav>
+    <div class="hero-meta-min">
+      <span>Caleta Olivia, Patagonia</span> · <span>Disponible para remoto — España / EE.UU.</span> ·
+      <a href="mailto:reynosoemilianos97@gmail.com">reynosoemilianos97@gmail.com</a> ·
+      <a href="https://www.linkedin.com/in/santiagoereynoso" target="_blank" rel="noopener">linkedin.com/in/santiagoereynoso</a>
+    </div>
+  </div>
+</header>
+
+<!-- CASE 01 -->
+<section class="case" id="c1">
+  <div class="titleblock reveal">
+    <div class="titleblock-inner">
+      <div>
+        <div class="titleblock-name">CASO 01 — CÓDIGO CO-0104-057</div>
+        <div class="titleblock-title">Rectificación de Línea Municipal con Vinculación de Niveles</div>
+      </div>
+      <div class="titleblock-meta">Gobierno de la Ciudad de Buenos Aires<br><b>Rol</b> Arquitecto de Proyecto</div>
+    </div>
+  </div>
+  <div class="case-body wrap">
+    <div class="case-grid reveal">
+      <div class="narrative">
+        <p>El relevamiento reveló un desnivel de 1 metro que generaba un conflicto estructural serio, en una vivienda con daño hídrico irreparable — y una huella que excedía la línea municipal. Una familia numerosa dependía de ese espacio, así que cada decisión técnica era también una decisión social.</p>
+        <p>Organicé la obra en dos bloques por etapas, usando el propio quiebre de nivel como eje del proyecto: la familia permaneció en el bloque existente mientras se levantaba el Bloque 1 con servicios completos, y se mudó recién cuando el Bloque 2 pudo construirse sobre la huella demolida. Negocié que la familia aportara su propia mano de obra en la demolición parcial, aprovechando su experiencia en construcción para reducir plazo y costo.</p>
+      </div>
+      <div class="meta-panel">
+        <div class="meta-row"><div class="meta-lbl">Ubicación</div><div class="meta-val">Barrio Padre Carlos Mugica, CABA</div></div>
+        <div class="meta-row"><div class="meta-lbl">Institución</div><div class="meta-val">Unidad de Proyectos Especiales, Dirección de Mejoramiento de Vivienda</div></div>
+        <div class="meta-row"><div class="meta-lbl">Habilidades demostradas</div><div class="tags">
+          <span class="tag">Diagnóstico en campo</span><span class="tag">Resolución normativa</span>
+          <span class="tag">Planificación de obra por etapas</span><span class="tag">Coordinación técnico-social</span>
+        </div></div>
+      </div>
+    </div>
+    <div class="process-strip reveal">
+      <div class="process-step"><div class="process-step-n">01</div><div class="process-step-t">Relevamiento y diagnóstico de nivel</div></div>
+      <div class="process-step"><div class="process-step-n">02</div><div class="process-step-t">Demolición parcial, Bloque 1 en pie</div></div>
+      <div class="process-step"><div class="process-step-n">03</div><div class="process-step-t">Traslado de la familia al Bloque 1</div></div>
+      <div class="process-step"><div class="process-step-n">04</div><div class="process-step-t">Bloque 2 sobre la huella demolida</div></div>
+    </div>
+    <div class="gallery gallery--md reveal">
+      <h3 class="section-h">Registro — Relevamiento y Documentación</h3>
+      <div class="gallery-row">
+        <figure class="g-fig" style="flex-grow:1.4551"><div class="g-item" style="aspect-ratio:1.4551"><img src="assets/img/01-lamina-is-corte-a.jpg" alt="Lámina IS-Corte A, instalación sanitaria, documentación ejecutiva original"></div><figcaption class="g-cap"><b>A</b>Lámina IS-Corte A — documentación ejecutiva original, Código CO-0104-057</figcaption></figure>
+        <figure class="g-fig" style="flex-grow:1.5"><div class="g-item" style="aspect-ratio:1.5"><img src="assets/img/02-plano-relevamiento.jpg" alt="Plano de relevamiento, huella versus línea municipal"></div><figcaption class="g-cap"><b>B</b>Plano de relevamiento — huella vs. línea municipal</figcaption></figure>
+      </div>
+      <div class="gallery-row">
+        <figure class="g-fig" style="flex-grow:1.6354"><div class="g-item" style="aspect-ratio:1.6354"><img src="assets/img/03-modelo-demolicion.jpg" alt="Modelo volumétrico de demolición"></div><figcaption class="g-cap"><b>C</b>Modelo volumétrico de demolición</figcaption></figure>
+        <figure class="g-fig" style="flex-grow:1.4591"><div class="g-item" style="aspect-ratio:1.4591"><img src="assets/img/04-isometrico-sanitaria.jpg" alt="Isométrico de instalación sanitaria"></div><figcaption class="g-cap"><b>D</b>Instalación sanitaria — isométrico, sistemas coordinados</figcaption></figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CASE 02 -->
+<section class="case" id="c2">
+  <div class="titleblock reveal">
+    <div class="titleblock-inner">
+      <div>
+        <div class="titleblock-name">CASO 02 — CÓDIGO PO-003A-031</div>
+        <div class="titleblock-title">Desarrollo de Proyecto Bajo Amparo Judicial</div>
+      </div>
+      <div class="titleblock-meta">Gobierno de la Ciudad de Buenos Aires<br><b>Rol</b> Arquitecto de Proyecto</div>
+    </div>
+  </div>
+  <div class="case-body wrap">
+    <div class="case-grid reveal">
+      <div class="narrative">
+        <p>Un amparo judicial fijó un plazo perentorio. Más allá de la presión legal, los dos lotes linderos tenían riesgo estructural real y un conflicto activo entre vecinos — el proyecto tenía que entregar una solución de vivienda segura y, al mismo tiempo, mediar ese conflicto.</p>
+        <p>Las dos construcciones existentes estaban discontinuadas y sin posibilidad de reparación, así que la demolición total fue el punto de partida. Propuse dos edificios gemelos, construidos con especificaciones idénticas — una decisión de diseño que resolvió el conflicto vecinal de forma directa: cada familia recuperó los metros cuadrados que le correspondían, reconstruidos como espacio digno y listo para habitar.</p>
+      </div>
+      <div class="meta-panel">
+        <div class="meta-row"><div class="meta-lbl">Ubicación</div><div class="meta-val">Barrio Padre Carlos Mugica, CABA</div></div>
+        <div class="meta-row"><div class="meta-lbl">Institución</div><div class="meta-val">Unidad de Proyectos Especiales, Dirección de Mejoramiento de Vivienda</div></div>
+        <div class="meta-row"><div class="meta-lbl">Habilidades demostradas</div><div class="tags">
+          <span class="tag">Gestión de plazos legales</span><span class="tag">Mediación de conflictos</span>
+          <span class="tag">Estandarización a escala</span><span class="tag">Decisiones basadas en equidad</span>
+        </div></div>
+      </div>
+    </div>
+    <div class="process-strip reveal">
+      <div class="process-step"><div class="process-step-n">01</div><div class="process-step-t">Amparo judicial — plazo fijado</div></div>
+      <div class="process-step"><div class="process-step-n">02</div><div class="process-step-t">Demolición total de ambos lotes</div></div>
+      <div class="process-step"><div class="process-step-n">03</div><div class="process-step-t">Diseño gemelo — misma especificación</div></div>
+      <div class="process-step"><div class="process-step-n">04</div><div class="process-step-t">Entrega equitativa a las dos familias</div></div>
+    </div>
+    <div class="gallery gallery--sm reveal">
+      <h3 class="section-h">Registro — Diseño y Documentación</h3>
+      <div class="gallery-row">
+        <figure class="g-fig" style="flex-grow:0.5456"><div class="g-item" style="aspect-ratio:0.5456"><img src="assets/img/05-render-fachada.jpg" alt="Render fotorrealista de fachada"></div><figcaption class="g-cap"><b>A</b>Render de fachada — dos edificios gemelos, volumetría terminada</figcaption></figure>
+        <figure class="g-fig" style="flex-grow:1.4874"><div class="g-item" style="aspect-ratio:1.4874"><img src="assets/img/06-contexto-zonificacion.jpg" alt="Relevamiento fotográfico de contexto y zonificación"></div><figcaption class="g-cap"><b>B</b>Relevamiento fotográfico de contexto y zonificación</figcaption></figure>
+      </div>
+      <div class="gallery-row">
+        <figure class="g-fig" style="flex-grow:0.8693"><div class="g-item" style="aspect-ratio:0.8693"><img src="assets/img/07-axonometrica-general.jpg" alt="Axonométrica general"></div><figcaption class="g-cap"><b>C</b>Axonométrica general</figcaption></figure>
+        <figure class="g-fig" style="flex-grow:1.0993"><div class="g-item" style="aspect-ratio:1.0993"><img src="assets/img/08-corte-estructural.jpg" alt="Corte estructural acotado"></div><figcaption class="g-cap"><b>D</b>Corte estructural acotado</figcaption></figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CASE 03 -->
+<section class="case" id="c3">
+  <div class="titleblock reveal">
+    <div class="titleblock-inner">
+      <div>
+        <div class="titleblock-name">CASO 03 — PRG-2026-001</div>
+        <div class="titleblock-title">Cocina a Medida — De la Idea a la Fabricación</div>
+      </div>
+      <div class="titleblock-meta">PRAGMA — estudio propio<br><b>Rol</b> Director y Arquitecto de Proyecto</div>
+    </div>
+  </div>
+  <img class="case-hero-photo" src="assets/img/09-cocina-general.jpg" alt="Render fotorrealista en Twinmotion de la cocina terminada">
+  <div class="case-body wrap">
+    <div class="case-grid reveal">
+      <div class="narrative">
+        <p>Una cocina de cuatro módulos, diseñada alrededor del stock de porcelanato existente del cliente. Modelé todo el mueble en SketchUp, lo rendericé en Twinmotion para la aprobación del cliente, y produje yo mismo el legajo de fabricación: despiece pieza por pieza y un manual de armado construido a partir de secuencias axonométricas explotadas — la misma disciplina de documentación que desarrollé para proyectos BIM, aplicada acá al mobiliario.</p>
+        <p>Cada unión, holgura y especificación de herraje del manual remite a un único documento fuente de verdad, así que una corrección en obra actualiza todo el legajo en vez de dejar una lámina desactualizada.</p>
+      </div>
+      <div class="meta-panel">
+        <div class="meta-row"><div class="meta-lbl">Estudio</div><div class="meta-val">PRAGMA — Caleta Olivia, Santa Cruz</div></div>
+        <div class="meta-row"><div class="meta-lbl">Rol</div><div class="meta-val">Diseño, modelado, render y documentación de fabricación</div></div>
+        <div class="meta-row"><div class="meta-lbl">Habilidades demostradas</div><div class="tags">
+          <span class="tag">Responsabilidad integral del proceso</span><span class="tag">Modelado en SketchUp</span>
+          <span class="tag">Render en Twinmotion</span><span class="tag">Documentación de fabricación</span><span class="tag">Registro audiovisual de obra</span>
+        </div></div>
+      </div>
+    </div>
+    <div class="process-strip reveal">
+      <div class="process-step"><div class="process-step-n">01</div><div class="process-step-t">Diseño sobre el stock existente</div></div>
+      <div class="process-step"><div class="process-step-n">02</div><div class="process-step-t">Modelado 3D completo en SketchUp</div></div>
+      <div class="process-step"><div class="process-step-n">03</div><div class="process-step-t">Render fotorrealista en Twinmotion</div></div>
+      <div class="process-step"><div class="process-step-n">04</div><div class="process-step-t">Legajo de fabricación y manual de armado</div></div>
+      <div class="process-step"><div class="process-step-n">05</div><div class="process-step-t">Armado real, registrado en obra</div></div>
+    </div>
+    <div class="gallery gallery--wide reveal">
+      <h3 class="section-h">Proceso — Modelado, Render y Documentación</h3>
+      <div class="gallery-row">
+        <figure class="g-fig" style="flex-grow:1.1068"><div class="g-item" style="aspect-ratio:1.1068"><img src="assets/img/10-viewport-sketchup.jpg" alt="Viewport del modelo crudo en SketchUp"></div><figcaption class="g-cap"><b>A</b>Modelado 3D — viewport de trabajo en SketchUp</figcaption></figure>
+        <figure class="g-fig" style="flex-grow:0.7495"><div class="g-item" style="aspect-ratio:0.7495"><img src="assets/img/11-detalle-cajon-ollas.jpg" alt="Render de detalle en Twinmotion, cajón de ollas"></div><figcaption class="g-cap"><b>B</b>Render de detalle — cajón extraíble de ollas</figcaption></figure>
+      </div>
+      <div class="gallery-row">
+        <figure class="g-fig" style="flex-grow:1.4151"><div class="g-item" style="aspect-ratio:1.4151"><img src="assets/img/12-manual-armado.jpg" alt="Página del manual de armado, secuencia axonométrica explotada" style="object-fit:contain;background:#fff;"></div><figcaption class="g-cap"><b>C</b>Documentación ejecutiva — manual de armado, secuencia axonométrica explotada (pipeline propio)</figcaption></figure>
+      </div>
+    </div>
+    <div class="video-block reveal">
+      <h3 class="section-h">Registro de obra — armado real</h3>
+      <div class="video-layout">
+        <div class="video-frame">
+          <span class="video-tag">M2</span>
+        <video controls playsinline preload="metadata"><source src="assets/video/armado-m2.mp4" type="video/mp4"></video>
+        </div>
+        <div class="video-note">
+          <p class="video-lead">El mismo mueble que se modeló, se renderizó y se documentó — construido.</p>
+          <div class="meta-row"><div class="meta-lbl">Qué se ve</div><div class="meta-val">El armado real del módulo M2 en obra. No es un render.</div></div>
+          <div class="meta-row"><div class="meta-lbl">Origen del material</div><div class="meta-val">Registrado por el Director, procesado y compuesto con el mismo pipeline que el legajo de fabricación.</div></div>
+          <div class="meta-row"><div class="meta-lbl">Formato</div><div class="meta-val">Registro de obra vertical, 22 segundos</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CASE 04 -->
+<section class="case" id="c4">
+  <div class="titleblock reveal">
+    <div class="titleblock-inner">
+      <div>
+        <div class="titleblock-name">CASO 04 — ACADÉMICO</div>
+        <div class="titleblock-title">Ejercicio Académico de Diseño</div>
+      </div>
+      <div class="titleblock-meta">FADU, Universidad de Buenos Aires</div>
+    </div>
+  </div>
+  <div class="case-body wrap">
+    <div class="academic-flag">Ejercicio académico — se muestra por rango de diseño, no es trabajo para cliente</div>
+    <div class="academic-figure reveal">
+      <img src="assets/img/13-academico-celosias.jpg" alt="Render exterior, celosías de ladrillo perforado, estudio de iluminación nocturna">
+      <div class="narrative">
+        <p>Un estudio de vivienda construido alrededor de celosías de ladrillo perforado y un esquema de iluminación nocturna — una exploración temprana de volumetría y contraste de materiales de la FADU, retrabajada después con mi metodología actual de diseño y render.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="closing" id="contact">
+  <div class="wrap">
+    <h2>Trabajemos juntos</h2>
+    <p>Hoy dirijo PRAGMA, mi propio sistema de producción técnica para arquitectura — modelado BIM, automatización con Dynamo/Python y control financiero en tiempo real en un solo pipeline. Este portfolio muestra de dónde vengo; mi trabajo actual está en LinkedIn.</p>
+    <div class="badge">Disponible · Trabajo remoto · Inicio inmediato</div>
+    <div class="closing-contact">
+      <span><b>CORREO</b><a href="mailto:reynosoemilianos97@gmail.com">reynosoemilianos97@gmail.com</a></span>
+      <span><b>LINKEDIN</b><a href="https://www.linkedin.com/in/santiagoereynoso" target="_blank" rel="noopener">santiagoereynoso</a></span>
+      <span><b>TEL</b>+54 9 297 494-6343</span>
+    </div>
+    <div class="footer-strip">Santiago E. Reynoso · Maestro Mayor de Obras · Fundador de PRAGMA</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var links = document.querySelectorAll('.indexbar-nav a');
+  var sections = ['c1','c2','c3','c4','contact'].map(function(id){return document.getElementById(id);});
+  var byId = {};
+  links.forEach(function(a){ byId[a.getAttribute('href').slice(1)] = a; });
+
+  if('IntersectionObserver' in window){
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){
+          links.forEach(function(a){a.classList.remove('active');});
+          var a = byId[en.target.id];
+          if(a) a.classList.add('active');
+        }
+      });
+    }, {rootMargin:'-45% 0px -50% 0px'});
+    sections.forEach(function(s){ if(s) obs.observe(s); });
+  }
+
+  var track = document.getElementById('ruleTrack');
+  var marker = document.getElementById('ruleMarker');
+  if(track && marker){
+    // tick marks: minor every step, major every 5th
+    var ticks = 20;
+    for(var i=0;i<=ticks;i++){
+      var el = document.createElement(i % 5 === 0 ? 'b' : 'i');
+      el.style.top = (i/ticks*100) + '%';
+      track.appendChild(el);
+    }
+    var ticking = false;
+    function update(){
+      var h = document.documentElement;
+      var scrolled = h.scrollTop || document.body.scrollTop;
+      var max = (h.scrollHeight || document.body.scrollHeight) - h.clientHeight;
+      var pct = max > 0 ? Math.min(1, Math.max(0, scrolled / max)) : 0;
+      marker.style.top = (pct*100) + '%';
+      ticking = false;
+    }
+    document.addEventListener('scroll', function(){
+      if(!ticking){ requestAnimationFrame(update); ticking = true; }
+    }, {passive:true});
+    update();
+  }
+})();
+
+/* ===== ENTRANCE — each project block arrives as you reach it.
+   Position is measured directly on scroll instead of delegating to
+   IntersectionObserver: a jump straight to #c3 (a shortcut, a pasted
+   link with a hash, a restored scroll position) must never land on a
+   section that is still at opacity 0. A timeout backs it up, so no
+   block can stay invisible because an event failed to fire. ===== */
+(function(){
+  var pending = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
+  if(!pending.length) return;
+  document.documentElement.classList.add('has-reveal');
+
+  function check(){
+    var h = window.innerHeight || document.documentElement.clientHeight;
+    var trigger = h * 0.95;
+    for(var i = pending.length - 1; i >= 0; i--){
+      // top above the trigger line covers both what is coming up and
+      // anything the reader jumped past.
+      if(pending[i].getBoundingClientRect().top < trigger){
+        pending[i].classList.add('is-visible');
+        pending.splice(i, 1);
+      }
+    }
+  }
+  // Run straight off the event rather than deferring to
+  // requestAnimationFrame: rAF only runs when frames are being produced,
+  // and a block must not stay invisible waiting for one. The work is a
+  // rect read over a list that empties as the reader advances, and the
+  // listeners detach once it is empty.
+  function onScroll(){
+    check();
+    if(!pending.length){
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+      window.removeEventListener('hashchange', onScroll);
+    }
+  }
+
+  window.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('resize', onScroll);
+  window.addEventListener('hashchange', onScroll);
+  window.addEventListener('load', check);
+  check();
+
+  setTimeout(function(){
+    pending.forEach(function(el){ el.classList.add('is-visible'); });
+    pending.length = 0;
+  }, 3000);
+})();
+
+/* ===== LIGHTBOX — technical viewer over .g-item galleries.
+   Reads src/alt/tag/caption straight off the existing DOM nodes,
+   so it never touches or duplicates the embedded image data. ===== */
+(function(){
+  // The caption now lives under the image, so each entry is read off the
+  // figure: the frame is what you click, the figcaption carries the tag.
+  var figs = Array.prototype.slice.call(document.querySelectorAll('.gallery .g-fig'));
+  if(!figs.length) return;
+
+  var data = figs.map(function(fig){
+    var frame = fig.querySelector('.g-item');
+    var img = frame ? frame.querySelector('img') : null;
+    var capEl = fig.querySelector('.g-cap');
+    var tagEl = capEl ? capEl.querySelector('b') : null;
+    var tagText = tagEl ? tagEl.textContent.trim() : '';
+    var capText = capEl ? capEl.textContent.replace(tagText, '').trim() : '';
+
+    var hint = document.createElement('div');
+    hint.className = 'g-view-hint';
+    hint.innerHTML = '<i></i><i></i><i></i><i></i>';
+    frame.appendChild(hint);
+    frame.setAttribute('tabindex', '0');
+    frame.setAttribute('role', 'button');
+    frame.setAttribute('aria-label', 'Ver ampliada: ' + (capText || (img ? img.alt : 'imagen')));
+    return {
+      el: frame,
+      src: img ? img.currentSrc || img.src : '',
+      alt: img ? img.alt : '',
+      tag: tagText,
+      cap: capText
+    };
+  });
+
+  var lb = document.getElementById('lightbox');
+  var lbImg = document.getElementById('lbImg');
+  var lbTag = document.getElementById('lbTag');
+  var lbCap = document.getElementById('lbCap');
+  var lbCount = document.getElementById('lbCount');
+  var lbClose = document.getElementById('lbClose');
+  var lbPrev = document.getElementById('lbPrev');
+  var lbNext = document.getElementById('lbNext');
+  var current = -1;
+  var lastFocus = null;
+
+  function render(){
+    var d = data[current];
+    lbImg.src = d.src;
+    lbImg.alt = d.alt;
+    lbTag.textContent = d.tag ? ('FIG ' + d.tag) : '';
+    lbCap.textContent = d.cap || d.alt;
+    lbCount.textContent = (current + 1) + ' / ' + data.length;
+  }
+
+  function open(i, triggerEl){
+    current = i;
+    lastFocus = triggerEl || document.activeElement;
+    render();
+    lb.classList.add('is-open');
+    lb.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    lbClose.focus();
+  }
+
+  function close(){
+    lb.classList.remove('is-open');
+    lb.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    lbImg.src = '';
+    if(lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  function step(delta){
+    current = (current + delta + data.length) % data.length;
+    render();
+  }
+
+  data.forEach(function(d, i){
+    d.el.addEventListener('click', function(){ open(i, d.el); });
+    d.el.addEventListener('keydown', function(e){
+      if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); open(i, d.el); }
+    });
+  });
+
+  lbClose.addEventListener('click', close);
+  lbPrev.addEventListener('click', function(){ step(-1); });
+  lbNext.addEventListener('click', function(){ step(1); });
+  lb.addEventListener('click', function(e){ if(e.target === lb) close(); });
+  document.addEventListener('keydown', function(e){
+    if(!lb.classList.contains('is-open')) return;
+    if(e.key === 'Escape') close();
+    else if(e.key === 'ArrowLeft') step(-1);
+    else if(e.key === 'ArrowRight') step(1);
+  });
+})();
+</script>
