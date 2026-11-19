@@ -415,6 +415,142 @@ section.case{background:var(--paper);}
 }
 
 h3.section-h{font-family:var(--display); font-weight:800; font-size:14px; letter-spacing:2px; text-transform:uppercase; color:var(--navy); margin-bottom:16px; padding-left:12px; border-left:3px solid var(--accent);}
+
+/* ===== MOVIMIENTO V5 — el mismo lenguaje que la web de PRAGMA: entra desde
+   abajo, las líneas se dibujan, los rellenos barren. Nada rebota ni brilla.
+   Sin JS (sin .has-reveal) o con «reducir movimiento», todo se ve quieto. ===== */
+:root{--ease:cubic-bezier(.2,.7,.3,1);}
+
+/* Barra: progreso de lectura y subrayado del caso activo */
+.indexbar-progreso{position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--accent);transform:scaleX(0);transform-origin:left;pointer-events:none;}
+.indexbar-nav a{position:relative;padding:4px 0;}
+.indexbar-nav a::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--accent-onnavy);transform:scaleX(0);transform-origin:right;transition:transform .4s var(--ease);}
+.indexbar-nav a:hover::after,.indexbar-nav a.active::after{transform:scaleX(1);transform-origin:left;}
+
+/* Portada: el nombre sube línea por línea; el resto entra escalonado */
+.hero h1 .ln{display:block;overflow:hidden;padding-bottom:.14em;margin-bottom:-.14em;}
+.hero h1 .ln > span{display:inline-block;animation:sube-linea 1s var(--ease) both;}
+.hero h1 .ln + .ln > span{animation-delay:.12s;}
+@keyframes sube-linea{from{transform:translateY(105%);}to{transform:none;}}
+.hero-eyebrow,.hero-role,.hero-meta-min,.hero-index a{animation:entra .8s var(--ease) both;}
+.hero-role{animation-delay:.3s;}
+.hero-index a:nth-child(1){animation-delay:.42s;}
+.hero-index a:nth-child(2){animation-delay:.5s;}
+.hero-index a:nth-child(3){animation-delay:.58s;}
+.hero-index a:nth-child(4){animation-delay:.66s;}
+.hero-index a:nth-child(5){animation-delay:.74s;}
+.hero-meta-min{animation-delay:.95s;}
+.hero-meta-min + .hero-meta-min{animation-delay:1.05s;}
+@keyframes entra{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:none;}}
+
+/* Índice de la portada: barra que crece a la izquierda y flecha que baja */
+.hero-index a{position:relative;}
+.hero-index a::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--accent-onnavy);transform:scaleY(0);transition:transform .3s var(--ease);}
+.hero-index a::after{content:'↓';flex:none;font-family:var(--serial);font-size:12px;color:var(--accent-onnavy);opacity:0;transform:translateY(-4px);transition:opacity .25s ease,transform .35s var(--ease);}
+.hero-index a:hover::before,.hero-index a:focus-visible::before{transform:scaleY(1);}
+.hero-index a:hover::after,.hero-index a:focus-visible::after{opacity:1;transform:none;}
+
+/* Links: el subrayado se dibuja en celeste y la flecha se adelanta */
+.hero-meta-min a,.closing-contact a{position:relative;transition:color .25s ease;}
+.hero-meta-min a::after,.closing-contact a::after{content:'';position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--accent-onnavy);transform:scaleX(0);transform-origin:right;transition:transform .45s var(--ease);}
+.hero-meta-min a:hover::after,.hero-meta-min a:focus-visible::after,.closing-contact a:hover::after,.closing-contact a:focus-visible::after{transform:scaleX(1);transform-origin:left;}
+.fl{display:inline-block;transition:transform .35s var(--ease);}
+.hero-local a:hover .fl,.hero-local a:focus-visible .fl{transform:translateX(4px);}
+
+/* Carátula de cada caso: la regla celeste se dibuja y el título sube */
+.titleblock{position:relative;border-bottom-color:transparent;}
+.titleblock::after{content:'';position:absolute;left:0;right:0;bottom:-2px;height:2px;background:var(--accent);transform-origin:left;}
+.has-reveal .titleblock.reveal:not(.is-visible)::after{transform:scaleX(0);}
+.has-reveal .titleblock.reveal.is-visible::after{transition:transform 1.1s var(--ease) .15s;}
+.has-reveal .titleblock.reveal:not(.is-visible) .titleblock-title{opacity:0;transform:translateY(14px);}
+.has-reveal .titleblock.reveal.is-visible .titleblock-title{transition:opacity .7s var(--ease) .12s,transform .7s var(--ease) .12s;}
+.has-reveal .titleblock.reveal:not(.is-visible) .titleblock-meta{opacity:0;}
+.has-reveal .titleblock.reveal.is-visible .titleblock-meta{transition:opacity .6s ease .35s;}
+
+/* Foto de portada del caso: se descubre de arriba hacia abajo */
+.has-reveal .case-hero-photo.reveal{opacity:1;transform:none;clip-path:inset(0 0 100% 0);}
+.has-reveal .case-hero-photo.reveal.is-visible{clip-path:inset(0 0 0 0);transition:clip-path 1.4s var(--ease);}
+
+/* Ficha del caso: los datos y las etiquetas llegan de a uno */
+.has-reveal .case-grid.reveal:not(.is-visible) .meta-row{opacity:0;transform:translateY(10px);}
+.has-reveal .case-grid.reveal.is-visible .meta-row{transition:opacity .5s ease var(--dl,0s),transform .6s var(--ease) var(--dl,0s);}
+.meta-row:nth-child(1){--dl:.2s;} .meta-row:nth-child(2){--dl:.3s;} .meta-row:nth-child(3){--dl:.4s;} .meta-row:nth-child(4){--dl:.5s;}
+.has-reveal .case-grid.reveal:not(.is-visible) .tag{opacity:0;transform:scale(.92);}
+.has-reveal .case-grid.reveal.is-visible .tag{transition:opacity .4s ease var(--dl,0s),transform .45s var(--ease) var(--dl,0s);}
+.tags .tag:nth-child(1){--dl:.6s;} .tags .tag:nth-child(2){--dl:.68s;} .tags .tag:nth-child(3){--dl:.76s;} .tags .tag:nth-child(4){--dl:.84s;} .tags .tag:nth-child(5){--dl:.92s;}
+
+/* Cadena del proceso: cada paso llega y su regla se dibuja en orden */
+.process-step{position:relative;}
+.process-step::before{content:'';position:absolute;left:0;right:0;top:-1px;height:2px;background:var(--accent);transform-origin:left;}
+.has-reveal .process-strip.reveal:not(.is-visible) .process-step{opacity:0;transform:translateY(8px);}
+.has-reveal .process-strip.reveal:not(.is-visible) .process-step::before{transform:scaleX(0);}
+.has-reveal .process-strip.reveal.is-visible .process-step{transition:opacity .45s ease var(--dl,0s),transform .5s var(--ease) var(--dl,0s);}
+.has-reveal .process-strip.reveal.is-visible .process-step::before{transition:transform .6s var(--ease) var(--dl,0s);}
+.process-step:nth-child(1){--dl:.15s;} .process-step:nth-child(2){--dl:.3s;} .process-step:nth-child(3){--dl:.45s;} .process-step:nth-child(4){--dl:.6s;} .process-step:nth-child(5){--dl:.75s;}
+
+/* Títulos de galería: la barra celeste crece */
+h3.section-h{border-left:0;position:relative;}
+h3.section-h::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent);transform-origin:top;}
+.has-reveal .reveal:not(.is-visible) h3.section-h::before{transform:scaleY(0);}
+.has-reveal .reveal.is-visible h3.section-h::before{transition:transform .7s var(--ease) .1s;}
+
+/* Galerías: las láminas llegan escalonadas; al pasar, «Ampliar» */
+.has-reveal .gallery.reveal:not(.is-visible) .g-fig{opacity:0;transform:translateY(16px);}
+.has-reveal .gallery.reveal.is-visible .g-fig{transition:opacity .6s ease var(--dl,0s),transform .7s var(--ease) var(--dl,0s);}
+.gallery-row .g-fig:nth-child(2){--dl:.12s;} .gallery-row .g-fig:nth-child(3){--dl:.24s;}
+.gallery-row + .gallery-row .g-fig:nth-child(1){--dl:.2s;} .gallery-row + .gallery-row .g-fig:nth-child(2){--dl:.32s;} .gallery-row + .gallery-row .g-fig:nth-child(3){--dl:.44s;}
+.g-cap{transition:color .25s ease;}
+.g-ver{position:absolute;left:10px;bottom:10px;z-index:2;font-family:var(--serial);font-size:10px;letter-spacing:1px;background:var(--navy);color:#fff;padding:4px 8px;opacity:0;transform:translateY(6px);transition:opacity .25s ease,transform .35s var(--ease);pointer-events:none;}
+.g-item:focus-visible .g-ver{opacity:1;transform:none;}
+@media (hover:hover){ .g-item:hover .g-ver{opacity:1;transform:none;} .g-fig:hover .g-cap{color:var(--ink);} }
+
+/* Visor ampliado: el marco se asienta y la imagen cambia con un fundido */
+.lightbox-frame{transform:scale(.97);transition:transform .4s var(--ease);}
+.lightbox.is-open .lightbox-frame{transform:none;}
+.lightbox-imgwrap img{transition:opacity .2s ease;}
+
+/* Bloque del video: la regla se dibuja y los datos llegan de a uno */
+.video-lead{position:relative;border-bottom-color:transparent;}
+.video-lead::after{content:'';position:absolute;left:0;right:0;bottom:-2px;height:2px;background:var(--accent);transform-origin:left;}
+.has-reveal .video-block.reveal:not(.is-visible) .video-lead::after{transform:scaleX(0);}
+.has-reveal .video-block.reveal.is-visible .video-lead::after{transition:transform 1s var(--ease) .3s;}
+.has-reveal .video-block.reveal:not(.is-visible) .video-note .meta-row{opacity:0;transform:translateY(10px);}
+.has-reveal .video-block.reveal.is-visible .video-note .meta-row{transition:opacity .5s ease calc(var(--dl,0s) + .3s),transform .6s var(--ease) calc(var(--dl,0s) + .3s);}
+
+/* Cierre: entra escalonado, el punto de «Disponible» respira y los botones barren */
+.closing .reveal.is-visible{transition:opacity .7s var(--ease) var(--dl,0s),transform .7s var(--ease) var(--dl,0s);}
+.closing .wrap > :nth-child(2){--dl:.1s;} .closing .wrap > :nth-child(3){--dl:.2s;} .closing .wrap > :nth-child(4){--dl:.3s;} .closing .wrap > :nth-child(5){--dl:.4s;}
+.badge::before{animation:respira 2.4s ease-in-out infinite;}
+@keyframes respira{50%{opacity:.35;}}
+.closing-ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:26px;}
+.pbtn{position:relative;isolation:isolate;overflow:hidden;display:inline-flex;align-items:center;gap:10px;font-family:var(--body);font-weight:600;font-size:15px;text-decoration:none;padding:12px 22px;border-radius:2px;border:1px solid transparent;transition:color .3s var(--ease),border-color .3s var(--ease),transform .15s ease;}
+.pbtn::before{content:'';position:absolute;inset:0;z-index:-1;transform:scaleX(0);transform-origin:right;transition:transform .45s var(--ease);}
+.pbtn:hover::before,.pbtn:focus-visible::before{transform:scaleX(1);transform-origin:left;}
+.pbtn:active{transform:scale(.97);}
+.pbtn:hover .fl,.pbtn:focus-visible .fl{transform:translate(3px,-3px);}
+.pbtn-solid{background:#fff;color:var(--navy);}
+.pbtn-solid::before{background:var(--line);}
+.pbtn-line{border-color:rgba(255,255,255,.45);color:#fff;}
+.pbtn-line::before{background:#fff;}
+.pbtn-line:hover,.pbtn-line:focus-visible{color:var(--navy);border-color:#fff;}
+.pbtn:focus-visible{outline:2px solid var(--accent-onnavy);outline-offset:3px;}
+
+@media (prefers-reduced-motion:reduce){
+  *{transition-delay:0s !important;animation-delay:0s !important;}
+  .badge::before{animation:none;}
+  /* con «reducir movimiento» nada espera al scroll: todo visible desde el principio */
+  .has-reveal .reveal:not(.is-visible) .titleblock-title,
+  .has-reveal .reveal:not(.is-visible) .titleblock-meta,
+  .has-reveal .reveal:not(.is-visible) .meta-row,
+  .has-reveal .reveal:not(.is-visible) .tag,
+  .has-reveal .reveal:not(.is-visible) .process-step,
+  .has-reveal .reveal:not(.is-visible) .g-fig{opacity:1 !important;transform:none !important;}
+  .has-reveal .reveal:not(.is-visible)::after,
+  .has-reveal .reveal:not(.is-visible) .process-step::before,
+  .has-reveal .reveal:not(.is-visible) h3.section-h::before,
+  .has-reveal .reveal:not(.is-visible) .video-lead::after{transform:none !important;}
+  .has-reveal .case-hero-photo.reveal{clip-path:none !important;}
+}
 </style>
 
 <div class="scalerule" aria-hidden="true">
@@ -459,7 +595,7 @@ h3.section-h{font-family:var(--display); font-weight:800; font-size:14px; letter
 <header class="hero">
   <div class="wrap">
     <div class="hero-eyebrow">Technical Portfolio — Rev. 2026-11</div>
-    <h1>Santiago E.<br>Reynoso</h1>
+    <h1><span class="ln"><span>Santiago E.</span></span><span class="ln"><span>Reynoso</span></span></h1>
     <p class="hero-role">BIM Specialist &amp; Project Coordinator</p>
     <nav class="hero-index" aria-label="Project index">
       <a href="#c1"><span class="hi-n">01</span><span class="hi-t">Building-Line Rectification with Level Linking</span><span class="hi-m">GCBA</span></a>
@@ -579,7 +715,7 @@ h3.section-h{font-family:var(--display); font-weight:800; font-size:14px; letter
       <div class="titleblock-meta">PRAGMA — own studio<br><b>Role</b> Principal &amp; Project Architect</div>
     </div>
   </div>
-  <img class="case-hero-photo" src="../assets/img/09-cocina-general.jpg" alt="Photorealistic Twinmotion render of the full kitchen">
+  <img class="case-hero-photo reveal" src="../assets/img/09-cocina-general.jpg" alt="Photorealistic Twinmotion render of the full kitchen">
   <div class="case-body wrap">
     <div class="case-grid reveal">
       <div class="narrative">
@@ -641,7 +777,7 @@ h3.section-h{font-family:var(--display); font-weight:800; font-size:14px; letter
       <div class="titleblock-meta">Architectural design · Arch. Jorge Aibar<br><b>Role</b> Furniture selection — PRAGMA</div>
     </div>
   </div>
-  <img class="case-hero-photo" src="../assets/img/14-rada-comedor.jpg" alt="Render of the dining area and double-height living room with the chosen furniture" style="object-position:50% 45%;">
+  <img class="case-hero-photo reveal" src="../assets/img/14-rada-comedor.jpg" alt="Render of the dining area and double-height living room with the chosen furniture" style="object-position:50% 45%;">
   <div class="case-body wrap">
     <div class="case-grid reveal">
       <div class="narrative">
@@ -704,10 +840,11 @@ h3.section-h{font-family:var(--display); font-weight:800; font-size:14px; letter
 
 <footer class="closing" id="contact">
   <div class="wrap">
-    <h2>Let's work together</h2>
-    <p>Today I run PRAGMA, my own technical production system for architecture — BIM modeling, Dynamo/Python automation and real-time financial control in a single pipeline. This portfolio shows where I come from; my current work is on LinkedIn.</p>
-    <div class="badge">Available · Remote work · Immediate start</div>
-    <div class="closing-contact">
+    <h2 class="reveal">Let's work together</h2>
+    <p class="reveal">Today I run PRAGMA, my own technical production system for architecture — BIM modeling, Dynamo/Python automation and real-time financial control in a single pipeline. This portfolio shows where I come from; my current work is on LinkedIn.</p>
+    <div class="badge reveal">Available · Remote work · Immediate start</div>
+    <div class="closing-ctas reveal"><a class="pbtn pbtn-solid" href="mailto:reynosoemilianos97@gmail.com">Email me <span class="fl" aria-hidden="true">↗</span></a><a class="pbtn pbtn-line" href="https://www.linkedin.com/in/santiagoereynoso" target="_blank" rel="noopener">LinkedIn <span class="fl" aria-hidden="true">↗</span></a></div>
+    <div class="closing-contact reveal">
       <span><b>EMAIL</b><a href="mailto:reynosoemilianos97@gmail.com">reynosoemilianos97@gmail.com</a></span>
       <span><b>LINKEDIN</b><a href="https://www.linkedin.com/in/santiagoereynoso" target="_blank" rel="noopener">santiagoereynoso</a></span>
     </div>
@@ -905,3 +1042,75 @@ h3.section-h{font-family:var(--display); font-weight:800; font-size:14px; letter
   });
 })();
 </script>
+
+<script>
+/* ===== MOVIMIENTO V5 — progreso de lectura, índice que sigue al caso activo en el
+   celular, «Ampliar» en las láminas, fundido y deslizamiento en el visor, y el video
+   que corre solo (sin sonido) en la compu mientras está a la vista. ===== */
+(function(){
+  var raiz = document.documentElement;
+  var quieto = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var en = (raiz.lang || '').indexOf('en') === 0;
+
+  var barra = document.querySelector('.indexbar');
+  if (barra) {
+    var prog = document.createElement('span');
+    prog.className = 'indexbar-progreso'; prog.setAttribute('aria-hidden', 'true');
+    barra.appendChild(prog);
+    var pedido = false;
+    var medir = function(){
+      var max = raiz.scrollHeight - raiz.clientHeight;
+      var p = max > 0 ? Math.min(1, Math.max(0, (window.pageYOffset || raiz.scrollTop) / max)) : 0;
+      prog.style.transform = 'scaleX(' + p.toFixed(4) + ')';
+      pedido = false;
+    };
+    window.addEventListener('scroll', function(){ if (!pedido) { pedido = true; requestAnimationFrame(medir); } }, {passive:true});
+    medir();
+  }
+
+  var nav = document.querySelector('.indexbar-nav');
+  if (nav && 'MutationObserver' in window) {
+    new MutationObserver(function(){
+      var a = nav.querySelector('a.active');
+      if (a && nav.scrollWidth > nav.clientWidth) {
+        nav.scrollBy({left: a.getBoundingClientRect().left - nav.getBoundingClientRect().left - 16, behavior: quieto ? 'auto' : 'smooth'});
+      }
+    }).observe(nav, {attributes:true, subtree:true, attributeFilter:['class']});
+  }
+
+  [].forEach.call(document.querySelectorAll('.gallery .g-item'), function(g){
+    var v = document.createElement('span');
+    v.className = 'g-ver'; v.setAttribute('aria-hidden', 'true');
+    v.textContent = en ? 'VIEW ⤢' : 'AMPLIAR ⤢';
+    g.appendChild(v);
+  });
+
+  var lb = document.getElementById('lightbox'), lbImg = document.getElementById('lbImg');
+  if (lb && lbImg) {
+    new MutationObserver(function(){ lbImg.style.opacity = '0'; }).observe(lbImg, {attributes:true, attributeFilter:['src']});
+    lbImg.addEventListener('load', function(){ lbImg.style.opacity = '1'; });
+    lbImg.addEventListener('error', function(){ lbImg.style.opacity = '1'; });
+    var x0 = null;
+    lb.addEventListener('touchstart', function(e){ x0 = e.touches[0].clientX; }, {passive:true});
+    lb.addEventListener('touchend', function(e){
+      if (x0 === null) return;
+      var dx = e.changedTouches[0].clientX - x0; x0 = null;
+      if (Math.abs(dx) > 50) { var b = document.getElementById(dx < 0 ? 'lbNext' : 'lbPrev'); if (b) b.click(); }
+    });
+  }
+
+  var video = document.querySelector('.video-frame video');
+  var compu = window.matchMedia && window.matchMedia('(hover: hover) and (min-width: 861px)').matches;
+  var ahorro = navigator.connection && navigator.connection.saveData;
+  if (video && compu && !quieto && !ahorro && 'IntersectionObserver' in window) {
+    video.muted = true; video.loop = true;
+    new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if (e.isIntersecting) { var p = video.play(); if (p && p.catch) p.catch(function(){}); }
+        else video.pause();
+      });
+    }, {threshold:.5}).observe(video);
+  }
+})();
+</script>
+
